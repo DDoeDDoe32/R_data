@@ -1,3 +1,16 @@
+install.packages('ggplot2') 
+library(ggplot2)
+
+## -------------------------------------------------------------------- ##
+
+# ggplo2의 mpg 데이터를 데이터 프레임 형태로 불러오기
+mpg <- as.data.frame(ggplot2::mpg)
+
+head(mpg)     # Raw 데이터 앞부분 확인
+tail(mpg)     # Raw 데이터 뒷부분 확인
+View(mpg)     # Raw 데이터 뷰어 창에서 확인
+dim(mpg)      # 행, 열 출력
+str(mpg)      # 데이터 속성 확인
 df_raw <- data.frame(var1 = c(1, 2, 1),   #두개의 변수로 구성된 데이터 프레임 생성
                      var2 = c(2, 3, 2))
 df_raw
@@ -36,3 +49,21 @@ df
 
 df$var_mean <- (df$var1 + df$var2)/2  # var_mean 파생변수 생성
 df
+
+str(df)
+head(df)
+
+#mpg 파생변수 만들기
+mpg
+str(mpg)
+
+mpg$total <- (mpg$cty + mpg$hwy)/2  # 통합 연비 변수 생성
+head(mpg)
+mean(mpg$total)  # 통합 연비 변수 평균
+
+head(mpg)
+
+
+summary(mpg$total)  # 요약 통계량 산출
+hist(mpg$total)     # 히스토그램 생성
+
