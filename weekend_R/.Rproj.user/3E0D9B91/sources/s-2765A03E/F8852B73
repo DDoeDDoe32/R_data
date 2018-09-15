@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1536983490596.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F8852B73",
+    "lastKnownWriteTime" : 1536983241,
+    "last_content_update" : 1536983241,
+    "path" : "~/GitHub/R_data/0915/데이터전처리.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "131,21",
+        "scrollLine" : "116"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
