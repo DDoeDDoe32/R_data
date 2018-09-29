@@ -160,4 +160,42 @@ ggplot(class_mpg,aes(x=class,y=cty)) + geom_boxplot()
 # - 우선 filter()를 이용해 비교할 세 차종을 추출해야 합니다. 추출한 데이터를 이용해 geom_boxplot()으로
 # 상자그림을 만들면 됩니다.
 
+df <- read.csv("./data/11/example_studentlist.csv")
+head(df)
+#install.packages("ggplot2")
+library(ggplot2)
+g1<- ggplot(df, aes(x=height,y=weight, colour=bloodtype))
+g1
+g1 + geom_point()
+g1 + geom_line()
+
+#두그래프 같이 사용
+g1  + geom_line() + geom_point()
+
+#size로 그래프 크기 설정
+g1  + geom_line(size=1) + geom_point(size=10)
+
+#geom_line만 aes추가할 수 있다. geom_poin()까지는 전달되지 않는다.
+#기존 colour설정은 무시된다.
+g1  + geom_line(aes(colour=gender),size=1) + geom_point(size=10)
+
+#y축을 두개로 나누어 비교한다.
+g1  + geom_line(size=1) + geom_point(size=10) + facet_grid(gender~.)
+
+g1  + geom_line(size=1) + geom_point(size=10) + facet_grid(gender~.,scales="free")
+
+g1  + geom_line(size=1) + geom_point(size=10) + facet_grid(.~gender)
+
+g1  + geom_line(size=1) + geom_point(size=10) + facet_grid(.~gender,scales="free")
+
+g1  + geom_line(size=1) + geom_point(size=10) + facet_wrap(~gender,scales="free")
+
+g1 <- ggplot(diamonds, aes(x=carat))
+g1 + geom_histogram(binwidth = 0.1,fill="orange") #binwidth:하나의 막대넓이
+
+g1 + geom_histogram(aes(y=..count..),binwidth = 0.1,fill="orange") #default 형식
+
+g1 + geom_histogram(aes(y=..density..),binwidth = 0.1,fill="orange") #밀도값
+
+g1 + geom_histogram(aes(fill=color),binwidth=0.1,alpha=0.5)
 
