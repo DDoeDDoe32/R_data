@@ -108,5 +108,10 @@ df <- data.frame(x, y)
 
 # 회귀모델 생성 
 result.lm <- lm(formula=y ~ x, data=df)
-
 summary(result.lm)
+
+result <- read.csv("./data/23/mytelecom.csv",header = T)
+View(result)
+
+result2 <- lm(churn ~ tenure + income + age + gender, data = result)
+summary(result2)
