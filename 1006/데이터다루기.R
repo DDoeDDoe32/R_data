@@ -115,3 +115,110 @@ addmargins(selectedDest, margin=1)
 
 #막대 그래프로 그려보기
 barplot(selectedDest)
+
+
+#2018 / 10 / 13
+
+df <- read.csv("./data/17/example_cancer.csv")
+
+str(df)
+
+
+
+#연령대별 도수구하기
+
+degreeOfAge <- table(cut(df$age,breaks=(1:11)*10))
+
+degreeOfAge
+
+
+
+#열값의 이름을 바꾼다.
+
+rownames(degreeOfAge) <- c("10s","20s","30s","40s","50s","60s","70s","80s","90s","100s")
+
+degreeOfAge
+
+
+
+#시각화-ggplot2는 위에 만든 도수분포표와 상관없이 알아서 연령대별로 그림을 그려준다.
+#ggthemes는 좀더 그림을 보기 좋게 그려준다.
+
+library(ggplot2)
+install.packages("ggthemes")
+
+library(ggthemes)
+
+ggplot(data=df,aes(x=age)) + geom_freqpoly(binwidth=10,size=1.4, colour="orange") + theme_wsj()
+
+#속도가 빠른 data.table 패키지 사용
+install.packages("data.table")
+
+library(data.table)
+library(ggplot2)
+
+#read.csv()보다 빠른 fread()로 데이터 읽어온다
+df<- fread("./data/17/example_coffee.csv", header=T,stringsAsFactors = T,data.table = F)
+str(df)
+
+#필요한 데이터로 정제한다.
+df <- subset(df, select=c(-adress, -adressBystreet,-dateOfclosure,-startdateOfcessation,-duedateOfcessation,-dateOfreOpen, -zip))
+
+str(df)
+
+#이데이터의 최초로 등록된 커피숍연도 찾기
+range(df$yearOfStart, na.rm=T)
+
+#1964년 최초의 커피숍에 대한 정보 확인하기
+subset(df, subset=(yearOfStart ==1964))
+
+#운영중인 오래된 커피숍을 찾아본다.
+dffilter <- subset(df,subset = (stateOfbusiness == '운영중'))
+range(dffilter$yearOfStart, na.rm=T)
+
+subset(dffilter, subset=(yearOfStart==1967))
+
+#해마다 오픈한 커피숍 개수 찾기
+table(df$yearOfStart)
+
+#막대 그래프 그리기
+qplot(yearOfStart, data=df, geom="bar")
+
+#영업상태 및 연도에 따른 분활표 생성
+freq <- table(df$stateOfbusiness, df$yearOfStart)
+freq
+
+#1997년도 이상 데이터만 저장
+#which()-값이 벡터중 어디있는지 알려준다.
+#which.max() 벡터의 마지막 위치값을 알려준다.
+which(colnames(freq)=='1997')
+which.max(colnames(freq))
+
+#1997~2014까지 데이터만 저장
+freq <- freq[,c(30:47)]
+freq
+
+#비율을 구한다.margin=2;열로 비율 구
+pfreq <- prop.table(freq,margin = 2)
+pfreq
+
+#새로운 데이터프레임으로 자료를 모은다.
+newdf <- data.frame(colnames(freq),freq[1,],freq[2,],pfreq[1,],pfreq[2,])
+
+newdf
+
+#행과 열의 이름을 정리한다.
+rownames(newdf)<-NULL
+newdf
+colnames(newdf)<-c("Time","Open","Close","Popen","Pclose")
+newdf
+
+#라인그래프로 그리기
+ggplot(newdf, aes(x=factor(Time),y=Close, group=1)) +
+  geom_line(colour="steelblue1",size=1) +
+  geom_point(colour="steelblue", size=3) +
+  geom_line(aes(y=Open),colour="tomato2", size=1) +
+  geom_point(aes(y=Open),colour="red",size=6) +
+  theme_bw()
+
+
