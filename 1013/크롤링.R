@@ -52,3 +52,7 @@ for(page in 1:20){
 head(all.reviews2,20)
 write.table(all.reviews2,"./1013/output/naver.txt")
 write.csv(all.reviews2,file = "./1013/output/naver.csv")
+
+#naver news
+source("./data/19/naverNewsParser-master/getnavernews.R", encoding = "utf-8")
+
