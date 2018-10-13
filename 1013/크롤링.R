@@ -31,3 +31,24 @@ all.test <- c(all.test,4,5,6)
 all.test
 all.test <- c(all.test,7,8,9)
 all.test
+
+
+#naver
+url_base<-"https://movie.naver.com/movie/bi/mi/review.nhn?code=163533&page="
+
+all.reviews2 <- c()
+
+for(page in 1:20){
+  url<-paste(url_base,page,sep = "")
+  htxt <- read_html(url)
+  table <- html_nodes(htxt,'.review')
+  content <- html_nodes(table,'.rvw_list_area')
+  reviews<-html_text(content)
+  if(length(reviews)==0){break}
+  all.reviews2 <- c(all.reviews2, reviews)
+  print(url)
+}
+
+head(all.reviews2,20)
+write.table(all.reviews2,"./1013/output/naver.txt")
+write.csv(all.reviews2,file = "./1013/output/naver.csv")
